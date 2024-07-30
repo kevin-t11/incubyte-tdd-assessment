@@ -7,6 +7,7 @@ This project implements a simple string calculator using Test-Driven Development
 ## Features
 
 - **Empty String**: Returns `0`.
+- **Invalid Input**: Throws an exception for invalid input.
 - **Single Number**: Returns the number itself.
 - **Two Numbers**: Returns the sum of two numbers.
 - **Multiple Numbers**: Returns the sum of multiple numbers.
@@ -26,13 +27,21 @@ This project implements a simple string calculator using Test-Driven Development
    ```bash
    npm install
    ```
-3. **Run the Tests**
+3. **Run the Application**
    ```bash
-   npx jest
+   npm start
    ```
+4. **Run the Tests**
+   ```bash
+   npm run test
+   ```
+
 ## Testing with Jest
 Jest is a JavaScript testing framework that simplifies testing with its easy setup and powerful features.
 - Zero Configuration: Minimal setup needed.
 - Snapshot Testing: Captures and compares snapshots to detect changes.
 - Mocking: Built-in tools for mocking functions, modules, and timers.
 - Code Coverage: Generates reports to identify untested code.
+
+## Continuous Integration
+Use a CI workflow to maintain code quality with automated linting and formatting checks. This ensures clean, consistent code across the project.
