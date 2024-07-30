@@ -1,4 +1,4 @@
-/*  Custom error class for handling negative numbers */
+/* Custom error class for handling negative numbers */
 class NegativeNumberError extends Error {
   negativeNumbers: number[];
 
@@ -17,16 +17,16 @@ class InvalidInputError extends Error {
   }
 }
 
-/*  Function to add numbers from a string input */
+/* Function to add numbers from a string input */
 function add(numbers: string): number {
-  /*  Return 0 if the input string is empty */
+  /* Return 0 if the input string is empty */
   if (!numbers) return 0;
 
-  /*  Default delimiter is comma or newline */
+  /* Default delimiter is comma or newline */
   const defaultDelimiter: RegExp = /,|\n/;
   let delimiter: RegExp = defaultDelimiter;
 
-  /* Check if the input starts with a custom delimiter definition */
+  /* Check for custom delimiter at the beginning of the input */
   if (numbers.startsWith("//")) {
     /* Find the end index of the delimiter definition */
     const delimiterEndIndex: number = numbers.indexOf("\n");
@@ -34,14 +34,15 @@ function add(numbers: string): number {
     /* Create a RegExp for the custom delimiter definition */
     const delimiterString: string = numbers.substring(2, delimiterEndIndex);
 
-    // Handle custom delimiter enclosed in square brackets
+    /* Handle custom delimiter enclosed in square brackets */
     if (delimiterString.startsWith("[") && delimiterString.endsWith("]")) {
-      const delimiterPattern: string = delimiterString.slice(1, -1); // Remove square brackets
+      /* Remove square brackets */
+      const delimiterPattern: string = delimiterString.slice(1, -1);
       delimiter = new RegExp(
         delimiterPattern.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
       );
     } else {
-      // Handle custom delimiter without square brackets
+      /* Handle custom delimiter without square brackets */
       delimiter = new RegExp(
         delimiterString.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
       );
@@ -52,16 +53,22 @@ function add(numbers: string): number {
   }
 
   /* Split the remaining string by the delimiter and convert to numbers */
-  const numberArray: number[] = numbers.split(delimiter).map(Number);
+  const numberArray: string[] = numbers.split(delimiter);
 
-  // Check for invalid characters and convert to numbers
+  /* Convert to numbers and check for invalid characters */
   const parsedNumbers: number[] = [];
+  const invalidInputs: string[] = [];
   for (const num of numberArray) {
-    const parsed = Number(num);
+    const trimmedNum = num.trim();
+    const parsed = Number(trimmedNum);
     if (isNaN(parsed)) {
-      throw new InvalidInputError(`Invalid number format: '${num}'`);
+      invalidInputs.push(trimmedNum);
     }
     parsedNumbers.push(parsed);
+  }
+
+  if (invalidInputs.length > 0) {
+    throw new InvalidInputError(`Invalid input: ${invalidInputs.join(", ")}`);
   }
 
   /* Filter out negative numbers */
@@ -71,7 +78,7 @@ function add(numbers: string): number {
     throw new NegativeNumberError(negativeNumbers);
   }
 
-  /*  Calculate and return the sum of all numbers */
+  /* Calculate and return the sum of all numbers */
   return parsedNumbers.reduce((sum, num) => sum + num, 0);
 }
 

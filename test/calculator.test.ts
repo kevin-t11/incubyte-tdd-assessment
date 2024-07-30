@@ -6,6 +6,15 @@ describe("Calculator", () => {
     expect(add("")).toBe(0);
   });
 
+  
+  /* test case for invalid input */
+  test("throws an error when invalid input is encountered", () => {
+    expect(() => add("a,b,c")).toThrow("Invalid input: a, b, c");
+    expect(() => add("//[***]\na***b***c")).toThrow("Invalid input: a, b, c");
+    expect(() => add("//[|]\na|b|c")).toThrow("Invalid input: a, b, c");
+  });
+  
+
   /* test case for sum of only one number */
   test("returns the number itself for a single number", () => {
     expect(add("1")).toBe(1);
@@ -42,4 +51,12 @@ describe("Calculator", () => {
     expect(add("//[***]\n1***2***3")).toBe(6);
     expect(add("//[|]\n1|2|3")).toBe(6);
   });
+
+  /* test case for negative numbers */
+  test("throws an error when a negative number is encountered", () => {
+    expect(() => add("1,-2,3")).toThrow("Negative numbers not allowed: -2");
+    expect(() => add("-1,2,-3")).toThrow("Negative numbers not allowed: -1, -3");
+    expect(() => add("//[***]\n-1***2***3")).toThrow("Negative numbers not allowed: -1");
+  });
+
 });
