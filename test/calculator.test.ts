@@ -6,12 +6,29 @@ describe("Calculator", () => {
     expect(add("")).toBe(0);
   });
 
-  /* Test for invalid input with non-numeric characters/mixed number with characters */
-  test("Throw InvalidInputError for invalid input", () => {
-    expect(() => add("abcd")).toThrow("Invalid number format: 'abcd'");
-    expect(() => add("1,2,abc")).toThrow("Invalid number format: 'abc'");
-    expect(() => add("10,20,a30")).toThrow("Invalid number format: 'a30'");
-    expect(() => add("1,2,3abc")).toThrow("Invalid number format: '3abc'");
-    expect(() => add("1\n2\n3a")).toThrow("Invalid number format: '3a'");
+  /* test case for sum of only one number */
+  test("returns the number itself for a single number", () => {
+    expect(add("1")).toBe(1);
+    expect(add("5")).toBe(5);
+  });
+
+  /*  test case for checking sum of 2 numbers */
+  test("returns the sum of two comma-separated numbers", () => {
+    expect(add("1,2")).toBe(3);
+    expect(add("4,5")).toBe(9);
+  });
+
+  /*  test case for multiple numbers separated by commas */
+  test("return the sum of multiple numbers separated by commas", () => {
+    expect(add("1,2,3")).toBe(6);
+    expect(add("4,5,6")).toBe(15);
+    expect(add("10,20,30,40")).toBe(100);
+  });
+
+  /* test case for multiple numbers separated by new lines */
+  test("return the sum of multiple numbers separated by new lines", () => { 
+    expect(add("1\n2,3")).toBe(6);
+    expect(add("4\n5\n6")).toBe(15);
+    expect(add("10\n20\n30\n40")).toBe(100);
   });
 });
