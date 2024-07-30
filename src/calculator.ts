@@ -9,6 +9,14 @@ class NegativeNumberError extends Error {
   }
 }
 
+/*  Custom error class for handling non-numeric inputs */
+class InvalidInputError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = 'InvalidInputError';
+    }
+}
+
 /*  Function to add numbers from a string input */
 function add(numbers: string): number {
 
@@ -37,18 +45,29 @@ function add(numbers: string): number {
     numbers = numbers.substring(delimiterEndIndex + 1);
   }
 
+  
   /* Split the remaining string by the delimiter and convert to numbers */
   const numberArray: number[] = numbers.split(delimiter).map(Number);
 
+  // Check for invalid characters and convert to numbers
+  const parsedNumbers: number[] = [];
+  for (const num of numberArray) {
+      const parsed = Number(num);
+      if (isNaN(parsed)) {
+          throw new InvalidInputError(`Invalid number format: '${num}'`);
+      }
+      parsedNumbers.push(parsed);
+  }
+
   /* Filter out negative numbers */
-  const negativeNumbers: number[] = numberArray.filter((num) => num < 0);
+  const negativeNumbers: number[] = parsedNumbers.filter((num) => num < 0);
 
   if (negativeNumbers.length) {
     throw new NegativeNumberError(negativeNumbers);
   }
   
   /*  Calculate and return the sum of all numbers */
-  return numberArray.reduce((sum, num) => sum + num, 0);
+  return parsedNumbers.reduce((sum, num) => sum + num, 0);
 }
 
 export { add };
