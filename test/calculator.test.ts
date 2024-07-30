@@ -18,17 +18,28 @@ describe("Calculator", () => {
     expect(add("4,5")).toBe(9);
   });
 
-  /*  test case for multiple numbers separated by commas */
+  /*  test case for checking sum of multiple numbers separated by commas */
   test("return the sum of multiple numbers separated by commas", () => {
     expect(add("1,2,3")).toBe(6);
     expect(add("4,5,6")).toBe(15);
     expect(add("10,20,30,40")).toBe(100);
   });
 
-  /* test case for multiple numbers separated by new lines */
-  test("return the sum of multiple numbers separated by new lines", () => { 
+  /* test case for checking sum of multiple numbers separated by new lines */
+  test("return the sum of multiple numbers separated by new lines", () => {
     expect(add("1\n2,3")).toBe(6);
     expect(add("4\n5\n6")).toBe(15);
     expect(add("10\n20\n30\n40")).toBe(100);
+  });
+
+  /* test case for custom delimiters */
+  test("handle the custom delimiter specified with //", () => {
+    expect(add("//;\n1;2;3")).toBe(6);
+  });
+
+  /* test case for custom delimiter with regex characters */
+  test("handle the custom delimiter with special characters", () => {
+    expect(add("//[***]\n1***2***3")).toBe(6);
+    expect(add("//[|]\n1|2|3")).toBe(6);
   });
 });
